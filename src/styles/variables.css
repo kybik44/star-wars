@@ -1,0 +1,97 @@
+:root {
+  /* Star Wars theme colors */
+  --color-primary-gold: #ffd700;
+  --color-primary-gold-light: #ffed4e;
+  --color-primary-gold-dark: #b8860b;
+  --color-primary-dark: #1a1a1a;
+  --color-primary-dark-light: #2a2a2a;
+
+  /* Text colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b0b0b0;
+  --color-text-disabled: #666666;
+  --color-text-inverse: #1a1a1a;
+
+  /* Status colors */
+  --color-status-success: #4caf50;
+  --color-status-warning: #ff9800;
+  --color-status-error: #f44336;
+  --color-status-info: #2196f3;
+
+  /* Background colors */
+  --color-background-default: #0d1117;
+  --color-background-paper: #161b22;
+  --color-background-elevated: #1f2937;
+  --color-background-overlay: rgba(0, 0, 0, 0.5);
+
+  /* Spacing */
+  --spacing-xs: 0.5rem; /* 4px */
+  --spacing-sm: 1rem; /* 8px */
+  --spacing-md: 2rem; /* 16px */
+  --spacing-lg: 3rem; /* 24px */
+  --spacing-xl: 4rem; /* 32px */
+  --spacing-xxl: 6rem; /* 48px */
+
+  /* Border radius */
+  --border-radius-none: 0;
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 12px;
+  --border-radius-xlarge: 16px;
+  --border-radius-round: 50%;
+
+  /* Shadows */
+  --shadow-none: none;
+  --shadow-small: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-medium: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  --shadow-large: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  --shadow-xlarge: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  --shadow-glow: 0 0 20px rgba(255, 215, 0, 0.3);
+
+  /* Transitions */
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-normal: all 0.2s ease-in-out;
+  --transition-slow: all 0.3s ease-in-out;
+  --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Typography */
+  --font-family-primary: "Lexend", "Roboto", "Helvetica", "Arial", sans-serif;
+  --font-family-mono: "Roboto Mono", "Consolas", "Monaco", "Courier New", monospace;
+  
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 3rem; /* 48px */
+  --font-size-6xl: 3.75rem; /* 60px */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* Gradients */
+  --gradient-star-wars: linear-gradient(45deg, var(--color-primary-gold), var(--color-primary-gold-light));
+  --gradient-dark: linear-gradient(45deg, var(--color-primary-dark), var(--color-primary-dark-light));
+  --gradient-gold: linear-gradient(135deg, var(--color-primary-gold) 0%, var(--color-primary-gold-light) 50%, var(--color-primary-gold-dark) 100%);
+  --gradient-space: linear-gradient(135deg, var(--color-background-default) 0%, var(--color-background-paper) 50%, var(--color-background-elevated) 100%);
+
+  /* Avatar colors */
+  --avatar-colors: #f44336, #e91e63, #9c27b0, #673ab7, #3f51b5, #2196f3, #03a9f4, #00bcd4, #009688, #4caf50, #8bc34a, #cddc39, #ffeb3b, #ffc107, #ff9800, #ff5722;
+} 

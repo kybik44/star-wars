@@ -1,0 +1,9 @@
+.container {
+  min-height: 100vh;
+  background: var(--color-background-default);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+} 

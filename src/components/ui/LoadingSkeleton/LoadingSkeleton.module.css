@@ -1,0 +1,20 @@
+.skeletonGrid {
+  margin-top: var(--spacing-md);
+}
+
+.skeletonCard {
+  padding: var(--spacing-md);
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-background-paper);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
+  transition: var(--transition-normal);
+}
+
+.skeletonCard:hover {
+  box-shadow: var(--shadow-large);
+  transform: translateY(-2px);
+} 
