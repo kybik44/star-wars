@@ -23,6 +23,17 @@
   --color-background-paper: #161b22;
   --color-background-elevated: #1f2937;
   --color-background-overlay: rgba(0, 0, 0, 0.5);
+  --color-background-hover: rgba(255, 255, 255, 0.05);
+  --color-background-disabled: rgba(255, 255, 255, 0.05);
+
+  /* Border colors */
+  --color-border-light: rgba(255, 255, 255, 0.1);
+  --color-border-medium: rgba(255, 255, 255, 0.2);
+  --color-border-dark: rgba(255, 255, 255, 0.3);
+
+  /* Entity-specific colors */
+  --color-primary: var(--color-primary-gold);
+  --color-error: var(--color-status-error);
 
   /* Spacing */
   --spacing-xs: 0.5rem; /* 4px */
@@ -94,4 +105,66 @@
 
   /* Avatar colors */
   --avatar-colors: #f44336, #e91e63, #9c27b0, #673ab7, #3f51b5, #2196f3, #03a9f4, #00bcd4, #009688, #4caf50, #8bc34a, #cddc39, #ffeb3b, #ffc107, #ff9800, #ff5722;
+
+  /* Navigation responsive variables */
+  --navigation-height-xs: auto;
+  --navigation-height-sm: 40vh;
+  --navigation-height-md: 60vh;
+  --navigation-height-lg: 80vh;
+  --navigation-height-xl: 80vh;
+
+  --navigation-padding-xs: var(--spacing-md) var(--spacing-sm);
+  --navigation-padding-sm: var(--spacing-lg) var(--spacing-md);
+  --navigation-padding-md: var(--spacing-xl) var(--spacing-lg);
+  --navigation-padding-lg: var(--spacing-xl) var(--spacing-lg);
+  --navigation-padding-xl: var(--spacing-xl) var(--spacing-lg);
+
+  --logo-size-xs: 40px;
+  --logo-size-sm: 60px;
+  --logo-size-md: 80px;
+  --logo-size-lg: 80px;
+  --logo-size-xl: 80px;
+
+  --navigation-icon-size-xs: 40px;
+  --navigation-icon-size-sm: 60px;
+  --navigation-icon-size-md: 80px;
+  --navigation-icon-size-lg: 120px;
+  --navigation-icon-size-xl: 120px;
+
+  --navigation-link-width-xs: 80px;
+  --navigation-link-width-sm: 120px;
+  --navigation-link-width-md: 160px;
+  --navigation-link-width-lg: 200px;
+  --navigation-link-width-xl: 200px;
+
+  --navigation-gap-xs: var(--spacing-sm);
+  --navigation-gap-sm: var(--spacing-md);
+  --navigation-gap-md: var(--spacing-lg);
+  --navigation-gap-lg: var(--spacing-lg);
+  --navigation-gap-xl: var(--spacing-lg);
+
+  --title-size-xs: var(--font-size-2xl);
+  --title-size-sm: var(--font-size-3xl);
+  --title-size-md: var(--font-size-4xl);
+  --title-size-lg: var(--font-size-5xl);
+  --title-size-xl: var(--font-size-5xl);
+
+  --label-size-xs: var(--font-size-xs);
+  --label-size-sm: var(--font-size-sm);
+  --label-size-md: var(--font-size-md);
+  --label-size-lg: var(--font-size-lg);
+  --label-size-xl: var(--font-size-lg);
+
+  /* Mobile menu variables */
+  --mobile-menu-width: 280px;
+  --mobile-menu-padding: var(--spacing-lg);
+  --mobile-menu-background: var(--color-background-paper);
+  --mobile-menu-border: 1px solid rgba(255, 255, 255, 0.1);
+  --mobile-menu-shadow: var(--shadow-large);
+
+  /* Hamburger button variables */
+  --hamburger-size: 32px;
+  --hamburger-color: var(--color-text-primary);
+  --hamburger-hover-color: var(--color-primary-gold);
+  --hamburger-transition: var(--transition-normal);
 } 

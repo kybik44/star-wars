@@ -1,0 +1,12 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  transition: var(--transition-normal);
+  padding: var(--spacing-md);
+}
+
+@media (max-width: 1024px) {
+  .pagination {
+    padding: var(--spacing-sm);
+  }
+}

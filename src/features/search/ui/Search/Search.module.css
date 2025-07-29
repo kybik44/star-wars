@@ -1,0 +1,34 @@
+.searchSection {
+  margin-bottom: var(--spacing-md);
+}
+
+.searchField {
+  background: var(--color-background-paper);
+  border-radius: var(--border-radius-medium);
+}
+
+.searchField .MuiOutlinedInput-root {
+  border-radius: var(--border-radius-medium);
+  transition: var(--transition-fast);
+}
+
+.searchField .MuiOutlinedInput-root:hover {
+  border-color: var(--color-primary-gold);
+}
+
+.searchField .MuiOutlinedInput-root.Mui-focused {
+  border-color: var(--color-primary-gold);
+  border-width: 2px;
+} 
+
+@media (max-width: 1024px) {
+  .searchSection {
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 768px) {
+  .searchSection {
+    margin-bottom: var(--spacing-xs);
+  }
+}

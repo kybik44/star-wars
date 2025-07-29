@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+/* Direction variants */
+.direction-horizontal {
+  flex-direction: row;
+}
+
+.direction-vertical {
+  flex-direction: column;
+}
+
+/* Spacing variants */
+.spacing-xs {
+  gap: var(--spacing-xs);
+}
+
+.spacing-sm {
+  gap: var(--spacing-sm);
+}
+
+.spacing-md {
+  gap: var(--spacing-md);
+}
+
+.spacing-lg {
+  gap: var(--spacing-lg);
+}
+
+/* Alignment variants */
+.align-start {
+  justify-content: flex-start;
+}
+
+.align-center {
+  justify-content: center;
+}
+
+.align-end {
+  justify-content: flex-end;
+}
+
+.align-space-between {
+  justify-content: space-between;
+}
+
+/* Button styles */
+.button {
+  min-width: 100px;
+  transition: var(--transition-normal);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--color-primary);
+}
+
+/* Responsive behavior */
+.responsive {
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-xs);
+  }
+
+  .button {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Vertical responsive */
+.direction-vertical.responsive {
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+/* Horizontal responsive */
+.direction-horizontal.responsive {
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+    min-width: 0;
+  }
+}

@@ -1,0 +1,14 @@
+.container {
+  min-height: 100vh;
+  background: var(--color-background-default);
+  position: relative;
+}
+
+.content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+  position: relative;
+  min-height: calc(100vh - 80px); /* Вычитаем высоту NavigationHeader */
+  z-index: 1;
+} 
