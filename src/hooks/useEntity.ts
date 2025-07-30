@@ -1,11 +1,12 @@
+import { extractEntityId } from "@/shared";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { swapiService } from "../services/swapiService";
+import { useCallback, useMemo, useState } from "react";
 import { localStorageService } from "../services/localStorage";
+import { swapiService } from "../services/swapiService";
 import type {
-  EntityType,
-  Entity,
   EditableEntity,
+  Entity,
+  EntityType,
   LocalEntityEdit,
 } from "../types";
 
@@ -13,6 +14,8 @@ export const useEntity = <T extends Entity>(
   entityType: EntityType,
   id: string
 ) => {
+  const [localEditVersion, setLocalEditVersion] = useState(0);
+
   const {
     data: originalEntity,
     isLoading,
@@ -29,14 +32,14 @@ export const useEntity = <T extends Entity>(
 
   const localEdit = useMemo(() => {
     return localStorageService.getEntityEdit(entityType, id);
-  }, [entityType, id]);
+  }, [entityType, id, localEditVersion]);
 
   const entity: (T & EditableEntity) | null = useMemo(() => {
     if (!originalEntity) return null;
 
     const baseEntity = {
       ...originalEntity,
-      id: swapiService.extractEntityId(originalEntity.url, entityType),
+      id: extractEntityId(originalEntity.url),
     } as T & EditableEntity;
 
     if (localEdit) {
@@ -47,21 +50,26 @@ export const useEntity = <T extends Entity>(
     }
 
     return baseEntity;
-  }, [originalEntity, localEdit, entityType]);
+  }, [originalEntity, localEdit]);
 
-  const saveLocalEdit = (editedData: Partial<EditableEntity>) => {
-    const newEdit: LocalEntityEdit = {
-      id,
-      editedData,
-      lastModified: new Date().toISOString(),
-    };
+  const saveLocalEdit = useCallback(
+    (editedData: Partial<EditableEntity>) => {
+      const newEdit: LocalEntityEdit = {
+        id,
+        editedData,
+        lastModified: new Date().toISOString(),
+      };
 
-    localStorageService.setEntityEdit(entityType, id, newEdit);
-  };
+      localStorageService.setEntityEdit(entityType, id, newEdit);
+      setLocalEditVersion((prev) => prev + 1);
+    },
+    [entityType, id]
+  );
 
-  const clearLocalEdit = () => {
+  const clearLocalEdit = useCallback(() => {
     localStorageService.removeEntityEdit(entityType, id);
-  };
+    setLocalEditVersion((prev) => prev + 1);
+  }, [entityType, id]);
 
   const hasLocalEdits = !!localEdit;
 

@@ -4,8 +4,6 @@ export interface BaseEntity {
   created: string;
   edited: string;
 }
-
-// Character interfaces
 export interface Character extends BaseEntity {
   name: string;
   height: string;
@@ -22,7 +20,6 @@ export interface Character extends BaseEntity {
   starships: string[];
 }
 
-// Film interfaces
 export interface Film extends BaseEntity {
   title: string;
   episode_id: number;
@@ -37,7 +34,6 @@ export interface Film extends BaseEntity {
   species: string[];
 }
 
-// Planet interfaces
 export interface Planet extends BaseEntity {
   name: string;
   rotation_period: string;
@@ -52,7 +48,6 @@ export interface Planet extends BaseEntity {
   films: string[];
 }
 
-// Starship interfaces
 export interface Starship extends BaseEntity {
   name: string;
   model: string;
@@ -71,7 +66,6 @@ export interface Starship extends BaseEntity {
   films: string[];
 }
 
-// Species interfaces
 export interface Species extends BaseEntity {
   name: string;
   classification: string;
@@ -87,7 +81,6 @@ export interface Species extends BaseEntity {
   films: string[];
 }
 
-// Vehicle interfaces
 export interface Vehicle extends BaseEntity {
   name: string;
   model: string;
@@ -104,12 +97,15 @@ export interface Vehicle extends BaseEntity {
   films: string[];
 }
 
-// Union types
-export type EntityType = 'characters' | 'films' | 'planets' | 'starships' | 'species' | 'vehicles';
+export type EntityType =
+  | "characters"
+  | "films"
+  | "planets"
+  | "starships"
+  | "species"
+  | "vehicles";
 export type Entity = Character | Film | Planet | Starship | Species | Vehicle;
-
-// Editable interfaces for all entities
-export interface EditableEntity {
+export interface EditableEntity extends Partial<Entity> {
   id: string;
 }
 
@@ -117,10 +113,7 @@ export interface EditableCharacter extends Character, EditableEntity {}
 export interface EditableFilm extends Film, EditableEntity {}
 export interface EditablePlanet extends Planet, EditableEntity {}
 export interface EditableStarship extends Starship, EditableEntity {}
-export interface EditableSpecies extends Species, EditableEntity {}
-export interface EditableVehicle extends Vehicle, EditableEntity {}
 
-// Local edit interfaces
 export interface LocalEntityEdit {
   id: string;
   editedData: Partial<EditableEntity>;
@@ -151,19 +144,6 @@ export interface LocalStarshipEdit {
   lastModified: string;
 }
 
-export interface LocalSpeciesEdit {
-  id: string;
-  editedData: Partial<EditableSpecies>;
-  lastModified: string;
-}
-
-export interface LocalVehicleEdit {
-  id: string;
-  editedData: Partial<EditableVehicle>;
-  lastModified: string;
-}
-
-// API response types
 export interface SwapiResponse<T> {
   count: number;
   next: string | null;
@@ -171,7 +151,6 @@ export interface SwapiResponse<T> {
   results: T[];
 }
 
-// Search and pagination types
 export interface CharacterSearchParams {
   search?: string;
   page?: number;
@@ -190,8 +169,7 @@ export interface PaginationInfo {
   totalCount: number;
 }
 
-// Field configuration types
-export type FieldType = 'text' | 'number' | 'select' | 'textarea' | 'array';
+type FieldType = "text" | "number" | "select" | "textarea" | "array";
 
 export interface FieldConfig {
   key: string;
@@ -211,7 +189,6 @@ export interface FieldConfig {
   helperText?: string;
 }
 
-// Form field configuration
 export interface FormFieldConfig extends FieldConfig {
   defaultValue?: string | number;
   disabled?: boolean;
@@ -219,13 +196,11 @@ export interface FormFieldConfig extends FieldConfig {
   rows?: number;
 }
 
-// Detail section configuration
-export interface DetailSection {
+interface DetailSection {
   title: string;
   fields: FieldConfig[];
 }
 
-// Entity configuration
 export interface EntityConfig {
   type: EntityType;
   name: string;
@@ -239,15 +214,3 @@ export interface EntityConfig {
   formFields?: FormFieldConfig[];
   validationSchema?: Record<string, unknown>;
 }
-
-// API Error type
-export interface ApiError {
-  message: string;
-  status?: number;
-}
-
-// UI State types
-export interface LoadingState {
-  isLoading: boolean;
-  error: string | null;
-} 

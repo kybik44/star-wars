@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { swapiService } from "../services/swapiService";
+import { localStorageService } from "../services/localStorage";
+import { extractEntityId, getCurrentPage, getTotalPages } from "@/shared";
 import type {
   EntityType,
   EntitySearchParams,
   PaginationInfo,
   Entity,
+  EditableEntity,
 } from "../types";
 
 export const useEntities = <T extends Entity>(
@@ -20,10 +24,32 @@ export const useEntities = <T extends Entity>(
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 
+  // Merge server data with local edits
+  const entitiesWithLocalEdits = useMemo(() => {
+    if (!data?.results) return [];
+    
+    const localEdits = localStorageService.getEntityEdits(entityType);
+    
+    return data.results.map((entity) => {
+      const entityId = extractEntityId(entity.url);
+      const localEdit = localEdits[entityId];
+      
+      if (localEdit) {
+        // Merge original entity with local edits
+        return {
+          ...entity,
+          ...localEdit.editedData,
+        } as T & EditableEntity;
+      }
+      
+      return entity as T;
+    });
+  }, [data?.results, entityType]);
+
   const paginationInfo: PaginationInfo | null = data
     ? {
-        currentPage: swapiService.getCurrentPage(data.next, data.previous),
-        totalPages: swapiService.getTotalPages(data.count),
+        currentPage: getCurrentPage(data.next, data.previous),
+        totalPages: getTotalPages(data.count),
         hasNext: !!data.next,
         hasPrevious: !!data.previous,
         totalCount: data.count,
@@ -31,7 +57,7 @@ export const useEntities = <T extends Entity>(
     : null;
 
   return {
-    entities: data?.results || [],
+    entities: entitiesWithLocalEdits,
     paginationInfo,
     isLoading,
     error: error as Error | null,

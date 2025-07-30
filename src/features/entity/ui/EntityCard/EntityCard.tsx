@@ -9,9 +9,14 @@ import {
 import React, { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
+import {
+  formatFieldValueWithUnit,
+  buildEntityDetailUrl,
+  extractEntityId,
+} from "@/shared";
 import { getEntityConfig } from "@constants/entityConfigs";
-import { swapiService } from "@services/swapiService";
-import type { Entity, EntityType } from "../../../../types";
+import { localStorageService } from "@services/localStorage";
+import type { Entity, EntityType } from "@/types";
 import styles from "./EntityCard.module.css";
 import EntityCardHeader from "./EntityCardHeader";
 
@@ -27,16 +32,27 @@ const EntityCard: React.FC<EntityCardProps> = React.memo(
 
     const config = useMemo(() => getEntityConfig(entityType), [entityType]);
 
+    // Check if entity has local edits
+    const hasLocalEdits = useMemo(() => {
+      if (!entity) return false;
+      const entityId = extractEntityId(entity.url);
+      const localEdit = localStorageService.getEntityEdit(entityType, entityId);
+      return !!localEdit;
+    }, [entity?.url, entityType]);
+
     const handleClick = useCallback(() => {
+      if (!entity) return;
       if (onClick) {
         onClick();
       } else {
-        const entityId = swapiService.extractEntityId(entity.url, entityType);
-        const detailRoute = swapiService.getEntityRoute(entityType);
-        navigate(`${detailRoute}/${entityId}`);
-      }
-    }, [onClick, entity.url, entityType, navigate]);
+        const entityId = extractEntityId(entity.url);
+        const detailUrl = buildEntityDetailUrl(entityType, entityId);
 
+        navigate(detailUrl);
+      }
+    }, [onClick, entity?.url, entityType, navigate]);
+
+    // Early return for null/undefined entity
     if (!entity) {
       return (
         <Card className={styles.card}>
@@ -55,9 +71,7 @@ const EntityCard: React.FC<EntityCardProps> = React.memo(
             <Box className={styles.details}>
               {config.cardFields.map((field) => {
                 const value = entity[field.key as keyof Entity];
-                const formattedValue = field.format
-                  ? field.format(value)
-                  : String(value);
+                const formattedValue = formatFieldValueWithUnit(value, field);
 
                 return (
                   <Box key={field.key} className={styles.detailRow}>
@@ -66,10 +80,6 @@ const EntityCard: React.FC<EntityCardProps> = React.memo(
                     </Typography>
                     <Typography variant="body2" className={styles.value}>
                       {formattedValue}
-                      {field.unit &&
-                        value !== "unknown" &&
-                        value !== "n/a" &&
-                        ` ${field.unit}`}
                     </Typography>
                   </Box>
                 );
@@ -82,6 +92,15 @@ const EntityCard: React.FC<EntityCardProps> = React.memo(
                 color="primary"
                 variant="outlined"
               />
+              {hasLocalEdits && (
+                <Chip
+                  label="Edited"
+                  size="small"
+                  color="warning"
+                  variant="filled"
+                  sx={{ ml: 1 }}
+                />
+              )}
             </Box>
             <Button
               onClick={handleClick}

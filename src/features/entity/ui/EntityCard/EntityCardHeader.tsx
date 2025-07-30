@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 
-import type { EntityType } from "../../../../types";
+import type { EntityType } from "@/types";
 import styles from "./EntityCard.module.css";
 
 interface EntityCardHeaderProps {

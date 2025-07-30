@@ -29,10 +29,13 @@
       "@assets/*": ["./src/assets/*"],
       "@styles/*": ["./src/styles/*"],
       "@theme/*": ["./src/theme/*"],
-      "@stores/*": ["./src/stores/*"]
-    }
+      "@stores/*": ["./src/stores/*"],
+      "@test/*": ["./src/test/*"]
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "tests/**/*"
   ]
 }

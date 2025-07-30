@@ -10,10 +10,10 @@ import EntityDetailPage from "@/pages/EntityDetailPage/EntityDetailPage";
 import EntityListPage from "@/pages/EntityListPage/EntityListPage";
 import NotFoundPage from "@/pages/NotFoundPage/NotFoundPage";
 
+import { useNavigationLoader } from "@/hooks/useSmartGlobalLoader";
 import { Routes as AppRoutes, EntityType } from "@constants/routes";
-import { useSmartGlobalLoaderSmooth } from "@hooks/useSmartGlobalLoader";
 import "@styles/globals.css";
-import { theme } from "@theme/index";
+import theme from "./theme";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,62 +26,68 @@ const queryClient = new QueryClient({
 });
 
 const AppContent: React.FC = () => {
-  const { isLoading } = useSmartGlobalLoaderSmooth();
+  return (
+    <Router>
+      <AppWithLoader />
+    </Router>
+  );
+};
+
+const AppWithLoader: React.FC = () => {
+  const { isLoading } = useNavigationLoader();
 
   return (
     <>
       <GlobalLoader isLoading={isLoading} />
-      <Router>
-        <Layout>
-          <Routes>
-            <Route
-              path="/"
-              element={<EntityListPage entityType={EntityType.characters} />}
-            />
+      <Layout>
+        <Routes>
+          <Route
+            path="/"
+            element={<EntityListPage entityType={EntityType.characters} />}
+          />
 
-            <Route
-              path={AppRoutes.characters}
-              element={<EntityListPage entityType={EntityType.characters} />}
-            />
-            <Route
-              path={`${AppRoutes.characters}/:id`}
-              element={<EntityDetailPage entityType={EntityType.characters} />}
-            />
+          <Route
+            path={AppRoutes.characters}
+            element={<EntityListPage entityType={EntityType.characters} />}
+          />
+          <Route
+            path={`${AppRoutes.characters}/:id`}
+            element={<EntityDetailPage entityType={EntityType.characters} />}
+          />
 
-            <Route
-              path={AppRoutes.films}
-              element={<EntityListPage entityType={EntityType.films} />}
-            />
-            <Route
-              path={`${AppRoutes.films}/:id`}
-              element={<EntityDetailPage entityType={EntityType.films} />}
-            />
+          <Route
+            path={AppRoutes.films}
+            element={<EntityListPage entityType={EntityType.films} />}
+          />
+          <Route
+            path={`${AppRoutes.films}/:id`}
+            element={<EntityDetailPage entityType={EntityType.films} />}
+          />
 
-            <Route
-              path={AppRoutes.planets}
-              element={<EntityListPage entityType={EntityType.planets} />}
-            />
-            <Route
-              path={`${AppRoutes.planets}/:id`}
-              element={<EntityDetailPage entityType={EntityType.planets} />}
-            />
+          <Route
+            path={AppRoutes.planets}
+            element={<EntityListPage entityType={EntityType.planets} />}
+          />
+          <Route
+            path={`${AppRoutes.planets}/:id`}
+            element={<EntityDetailPage entityType={EntityType.planets} />}
+          />
 
-            <Route
-              path={AppRoutes.starships}
-              element={<EntityListPage entityType={EntityType.starships} />}
-            />
-            <Route
-              path={`${AppRoutes.starships}/:id`}
-              element={<EntityDetailPage entityType={EntityType.starships} />}
-            />
+          <Route
+            path={AppRoutes.starships}
+            element={<EntityListPage entityType={EntityType.starships} />}
+          />
+          <Route
+            path={`${AppRoutes.starships}/:id`}
+            element={<EntityDetailPage entityType={EntityType.starships} />}
+          />
 
-            <Route path={AppRoutes.species} element={<NotFoundPage />} />
-            <Route path={AppRoutes.vehicles} element={<NotFoundPage />} />
+          <Route path={AppRoutes.species} element={<NotFoundPage />} />
+          <Route path={AppRoutes.vehicles} element={<NotFoundPage />} />
 
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Layout>
-      </Router>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Layout>
     </>
   );
 };

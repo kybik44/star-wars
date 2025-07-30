@@ -8,18 +8,8 @@ export const STORAGE_KEYS = {
 
 export type StorageKey = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS];
 
-// Storage utilities
-export const createStorageKey = (key: StorageKey, suffix?: string): string => {
-  return suffix ? `${key}-${suffix}` : key;
-};
-
 // Create entity-specific storage key
 export const createEntityStorageKey = (entityType: string, suffix?: string): string => {
   const baseKey = `star-wars-${entityType}-edits`;
   return suffix ? `${baseKey}-${suffix}` : baseKey;
-};
-
-// Validation for storage keys
-export const isValidStorageKey = (key: string): key is StorageKey => {
-  return Object.values(STORAGE_KEYS).includes(key as StorageKey);
 }; 

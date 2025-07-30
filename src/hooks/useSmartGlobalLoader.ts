@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useIsFetching } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 
 interface UseSmartGlobalLoaderOptions {
   showDelay?: number; // Delay before showing loader to avoid flashing
@@ -9,9 +10,7 @@ interface UseSmartGlobalLoaderOptions {
   debug?: boolean; // Enable debug logging
 }
 
-export const useSmartGlobalLoader = (
-  options: UseSmartGlobalLoaderOptions = {}
-) => {
+export const useSmartGlobalLoader = (options: UseSmartGlobalLoaderOptions = {}) => {
   const {
     showDelay = 200, // 200ms delay before showing
     minShowTime = 500, // Show for at least 500ms
@@ -21,9 +20,11 @@ export const useSmartGlobalLoader = (
   } = options;
 
   const isFetching = useIsFetching();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(showOnInitialLoad);
   const [showStartTime, setShowStartTime] = useState<number | null>(null);
   const [hasShownInitialLoad, setHasShownInitialLoad] = useState(false);
+  const [lastLocation, setLastLocation] = useState(location.pathname);
 
   const showTimerRef = useRef<NodeJS.Timeout | null>(null);
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -72,21 +73,42 @@ export const useSmartGlobalLoader = (
     }
   }, [showOnInitialLoad, hasShownInitialLoad, initialLoadDelay, isFetching]);
 
+  // Track location changes to detect navigation
+  useEffect(() => {
+    if (location.pathname !== lastLocation) {
+      log(`Navigation detected: ${lastLocation} -> ${location.pathname}`);
+      setLastLocation(location.pathname);
+
+      // Show loader on navigation
+      if (isFetching > 0) {
+        log("Navigation with fetching - showing loader");
+        clearAllTimers();
+        setIsLoading(true);
+        setShowStartTime(Date.now());
+        isShowingRef.current = true;
+      }
+    }
+  }, [location.pathname, lastLocation, isFetching, log, clearAllTimers]);
+
   useEffect(() => {
     if (showOnInitialLoad && !hasShownInitialLoad) {
       log("Skipping - still in initial load phase");
       return;
     }
 
+    // Only show loader for navigation-related fetching, not for data updates within the same page
+    const isNavigationFetching =
+      location.pathname !== lastLocation && isFetching > 0;
+
     log(
-      `Processing state change - isFetching: ${isFetching}, isShowing: ${isShowingRef.current}`
+      `Processing state change - isFetching: ${isFetching}, isShowing: ${isShowingRef.current}, isNavigation: ${isNavigationFetching}`
     );
 
     clearAllTimers();
 
-    if (isFetching > 0) {
+    if (isNavigationFetching) {
       if (!isShowingRef.current) {
-        log(`Setting show timer: ${showDelay}ms`);
+        log(`Setting show timer for navigation: ${showDelay}ms`);
         showTimerRef.current = setTimeout(() => {
           log("Show timer fired - displaying loader");
           setIsLoading(true);
@@ -125,6 +147,8 @@ export const useSmartGlobalLoader = (
     showStartTime,
     hasShownInitialLoad,
     showOnInitialLoad,
+    location.pathname,
+    lastLocation,
     log,
     clearAllTimers,
   ]);
@@ -162,18 +186,6 @@ export const useSmartGlobalLoader = (
 };
 
 /**
- * Fast loader - minimal delays, good for quick operations
- */
-export const useSmartGlobalLoaderFast = () => {
-  return useSmartGlobalLoader({
-    showDelay: 100,
-    minShowTime: 300,
-    showOnInitialLoad: true,
-    initialLoadDelay: 500,
-  });
-};
-
-/**
  * Smooth loader - balanced delays for good UX
  */
 export const useSmartGlobalLoaderSmooth = () => {
@@ -186,38 +198,13 @@ export const useSmartGlobalLoaderSmooth = () => {
 };
 
 /**
- * Patient loader - longer delays, good for slower connections
+ * Navigation-only loader - shows only during page navigation
  */
-export const useSmartGlobalLoaderPatient = () => {
+export const useNavigationLoader = () => {
   return useSmartGlobalLoader({
-    showDelay: 300,
-    minShowTime: 800,
+    showDelay: 100,
+    minShowTime: 300,
     showOnInitialLoad: true,
-    initialLoadDelay: 1500,
-  });
-};
-
-/**
- * Data-only loader - no initial load, only tracks data fetching
- */
-export const useSmartGlobalLoaderDataOnly = () => {
-  return useSmartGlobalLoader({
-    showDelay: 200,
-    minShowTime: 500,
-    showOnInitialLoad: false,
-    initialLoadDelay: 0,
-  });
-};
-
-/**
- * Debug version - helps identify loader behavior issues
- */
-export const useSmartGlobalLoaderDebug = () => {
-  return useSmartGlobalLoader({
-    showDelay: 200,
-    minShowTime: 500,
-    showOnInitialLoad: true,
-    initialLoadDelay: 1000,
-    debug: true,
+    initialLoadDelay: 800,
   });
 };

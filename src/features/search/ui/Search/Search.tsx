@@ -16,7 +16,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
   placeholder = "Search characters...",
 }) => {
   return (
-    <Box className={styles.searchSection}>
+    <Box className={styles.searchSection} id="search">
       <TextField
         fullWidth
         placeholder={placeholder}

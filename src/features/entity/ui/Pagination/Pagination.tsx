@@ -2,7 +2,7 @@ import { Box, Pagination } from "@mui/material";
 import React from "react";
 
 import { useResponsive } from "@hooks/useResponsive";
-import type { PaginationInfo } from "../../../../types";
+import type { PaginationInfo } from "@/types";
 import styles from "./Pagination.module.css";
 
 interface PaginationSectionProps {

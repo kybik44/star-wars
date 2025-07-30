@@ -7,9 +7,9 @@ import { EntityGrid, LoadingSkeleton, Pagination } from "@/features/entity";
 import { Search } from "@/features/search";
 import { useEntities } from "@hooks/useEntities";
 import { useDebounce } from "@hooks/useDebounce";
-import { getEntityConfig } from "../../constants/entityConfigs";
-import { swapiService } from "../../services/swapiService";
-import type { EntityType, Entity } from "../../types";
+import { extractEntityId, buildEntityDetailUrl } from "@/shared";
+import { getEntityConfig } from "@constants/entityConfigs";
+import type { EntityType, Entity } from "@/types";
 import styles from "./EntityListPage.module.css";
 
 interface EntityListPageProps {
@@ -47,20 +47,20 @@ const EntityListPage: React.FC<EntityListPageProps> = ({ entityType }) => {
   const handlePageChange = useCallback(
     (_event: React.ChangeEvent<unknown>, page: number) => {
       setCurrentPage(page);
-      window.scrollTo({
-        top: document.getElementById(entityType)?.offsetTop,
-        behavior: "smooth",
-      });
+      const element = document.getElementById("search");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     },
     [entityType]
   );
 
   const handleEntityClick = useCallback(
     (entityUrl: string) => {
-      const id = swapiService.extractEntityId(entityUrl, entityType);
+      const id = extractEntityId(entityUrl);
       if (id) {
-        const route = swapiService.getEntityRoute(entityType);
-        navigate(`${route}/${id}`);
+        const url = buildEntityDetailUrl(entityType, id);
+        navigate(url);
       }
     },
     [entityType, navigate]
@@ -78,7 +78,7 @@ const EntityListPage: React.FC<EntityListPageProps> = ({ entityType }) => {
       )}
 
       {/* Content Section */}
-      <Box className={styles.contentSection}>
+      <Box className={styles.contentSection} id={entityType}>
         {/* Error State */}
         {isError && (
           <Alert
@@ -118,7 +118,6 @@ const EntityListPage: React.FC<EntityListPageProps> = ({ entityType }) => {
             entities={entities}
             entityType={entityType}
             onEntityClick={handleEntityClick}
-            id={entityType}
           />
         ) : !isError ? (
           <Box className={styles.noResults}>
